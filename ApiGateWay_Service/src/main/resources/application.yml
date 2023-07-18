@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: API-GATEWAY-SERVICE
+  cloud:
+    gateway:
+      routes:
+        - id: USER-SERVICE
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path= /users/**
+
+        - id: HOTEL-SERVICE
+          uri: lb://HOTEL-SERVICE
+          predicates:
+            - Path= /hotels/**,/staffs/**
+
+        - id: RATING-SERVICE
+          uri: lb://RATING-SERVICE
+          predicates:
+            - Path= /ratings/**
+
+server:
+  port: 8084
+
+#  config:
+#    import: optional:configserver:http://localhost:8085
+
+#okta configuration for  api gateway
+#for authorization
+okta:
+  oauth2:
+    issuer: https://dev-97346486.okta.com/oauth2/default
+    audience: api://default
+    client-id: 0oa9t0gyymPPrdoF95d7
+    client-secret: 2aTmF8zb1cswK3g3skfUxP9y9KYI-zBLTiwbJAW7
+    scopes: openid, profile, email, offline_access
